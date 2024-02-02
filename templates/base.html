@@ -9,10 +9,11 @@
     />
     <title>{% block title %}{% endblock %} - spotify-scraper</title>
   </head>
-
   <body>
-    <h1>{% block pageTitle %}{% endblock %}</h1>
-    <div>{% block content %}{% endblock %}</div>
+    <main>
+      <h1>{% block pageTitle %}{% endblock %}</h1>
+      <div>{% block content %}{% endblock %}</div>
+    </main>
     <script src="{{ url_for('static', filename='scripts/manager.js') }}"></script>
   </body>
 </html>

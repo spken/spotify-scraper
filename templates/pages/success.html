@@ -2,9 +2,14 @@
 
 {% block title %} Success {% endblock %} 
 
-{% block pageTitle %} spotify-scraper - success {% endblock %} 
+{% block pageTitle %} spotify-scraper {% endblock %} 
 
 {% block content %}
     <button onclick="getCurrentTrack()">Get your current track</button>
-    <div id="currentTrack"></div>
+    <div id="currentTrack">
+        <a id="link"></a><br>
+        <img id="image" src="" alt="">
+    </div>
+    <br>
+    <button onclick="logout()">Logout</button>
 {% endblock %}
