@@ -52,11 +52,14 @@ def callback():
         token_info = auth_manager.get_access_token(code)
         cache_handler.save_token_to_cache(token_info=token_info)
 
-        # TODO: fix this somewhere here, tokens not being accepted for some reason
-
-        return render_template('pages/success.html')
+        return redirect('/success')
     else:
         return render_template('pages/error.html')
+    
+
+@app.route('/success')
+def success():
+    return render_template('pages/success.html')
 
 
 @app.route('/current')
@@ -73,11 +76,11 @@ def currentTrack():
         except Exception as e:
             return jsonify({'error': f'Token refresh failed: {str(e)}'})
 
-    sp = spotipy.Spotify(auth_manager=auth_manager, cache_handler=cache_handler)
+    sp = spotipy.Spotify(auth_manager=auth_manager)
     current_track = sp.current_user_playing_track()
     
     if current_track:
-        return jsonify({'current_track': current_track}) # TODO: returned as html for some reason?
+        return jsonify({'current_track': current_track})
     else:
         return jsonify({'message': 'No track is playing right now.'})
 

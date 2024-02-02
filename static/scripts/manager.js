@@ -14,7 +14,7 @@ async function getCurrentTrack() {
   fetch("/current")
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.current_track);
+      document.getElementById("currentTrack").textContent = data.current_track.item.name;
     })
     .catch((error) => {
       console.error("Error:", error);
