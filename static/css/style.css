@@ -1,5 +1,25 @@
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
-  font-family: Frutiger, sans-serif;
+  font-family: 'Frutiger', sans-serif;
+}
+
+body {
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f8f8;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: #1db954;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #168040;
 }
