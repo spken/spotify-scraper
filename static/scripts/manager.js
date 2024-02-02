@@ -14,7 +14,7 @@ async function getCurrentTrack() {
   fetch("/current")
     .then((response) => response.json())
     .then((data) => {
-      console.log("data: ", data);
+      console.log(data.current_track);
     })
     .catch((error) => {
       console.error("Error:", error);

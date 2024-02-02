@@ -49,6 +49,11 @@ def callback():
     # callback endpoint to handle the authorization response
     code = request.args.get('code')
     if code:
+        token_info = auth_manager.get_access_token(code)
+        cache_handler.save_token_to_cache(token_info=token_info)
+
+        # TODO: fix this somewhere here, tokens not being accepted for some reason
+
         return render_template('pages/success.html')
     else:
         return render_template('pages/error.html')
@@ -72,7 +77,7 @@ def currentTrack():
     current_track = sp.current_user_playing_track()
     
     if current_track:
-        return jsonify(current_track)
+        return jsonify({'current_track': current_track}) # TODO: returned as html for some reason?
     else:
         return jsonify({'message': 'No track is playing right now.'})
 
