@@ -7,9 +7,16 @@
 {% block content %}
     <button onclick="getCurrentTrack()">Get your current track</button>
     <div id="currentTrack">
-        <a id="link"></a><br>
-        <img id="image" src="" alt="">
+        <a id="link"></a><br />
+        <img id="image" src="" alt="" />
     </div>
-    <br>
+    <button onclick="getTopArtists()">Get your top 10 artists</button>
+        <div id="topArtists">
+            <p id="artists"></p>
+        </div>
+    <button onclick="getTopTracks()">Get your top 10 tracks</button>
+        <div id="topTracks">
+            <p id="tracks"></p>
+        </div>
     <button onclick="logout()">Logout</button>
 {% endblock %}

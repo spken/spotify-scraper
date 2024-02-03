@@ -18,7 +18,7 @@ client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
 redirect_uri = os.getenv("SPOTIPY_REDIRECT_URI")
 
 CACHE_HANDLER = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-SCOPE = "user-library-read user-read-currently-playing"
+SCOPE = "user-library-read user-read-currently-playing user-top-read"
 AUTH_MANAGER = SpotifyOAuth(
     client_id=client_id,
     client_secret=client_secret,
@@ -86,7 +86,7 @@ def logout():
     return jsonify({"logout": "/"})
 
 
-@app.route("/current")
+@app.route("/current-track")
 def current_track():
     """
     Gets a users current track (if one is playing)
@@ -104,7 +104,7 @@ def current_track():
             )
             CACHE_HANDLER.save_token_to_cache(new_token_info)
         except Exception as e:
-            return jsonify({"error": f"Token refresh failed: {str(e)}"})
+            return jsonify({"current_track": f"Token refresh failed: {str(e)}"})
 
     sp = spotipy.Spotify(auth_manager=AUTH_MANAGER)
     track = sp.current_user_playing_track()
@@ -112,7 +112,65 @@ def current_track():
     if track:
         return jsonify({"current_track": track})
     else:
-        return jsonify({"message": "No track is playing right now."})
+        return jsonify({"current_track": "No track is playing right now."})
+
+
+@app.route("/top-artists")
+def top_artists():
+    """
+    Gets the users top 10 artists
+    :return: Top 10 artists for user
+    """
+    # check if token is valid
+    if not AUTH_MANAGER.validate_token(CACHE_HANDLER.get_cached_token()):
+        return redirect("/auth")
+
+    # attempt to refresh token if expired
+    if AUTH_MANAGER.is_token_expired(CACHE_HANDLER.get_cached_token()):
+        try:
+            new_token_info = AUTH_MANAGER.refresh_access_token(
+                CACHE_HANDLER.get_cached_token()["refresh_token"]
+            )
+            CACHE_HANDLER.save_token_to_cache(new_token_info)
+        except Exception as e:
+            return jsonify({"error": f"Token refresh failed: {str(e)}"})
+
+    sp = spotipy.Spotify(auth_manager=AUTH_MANAGER)
+    artists = sp.current_user_top_artists(limit=10, time_range="short_term")
+
+    if artists:
+        return jsonify({"artists": artists})
+    else:
+        return jsonify({"artists": "Artist information not found."})
+    
+
+@app.route("/top-tracks")
+def top_tracks():
+    """
+    Gets the users top 10 tracks
+    :return: Top 10 tracks for user
+    """
+    # check if token is valid
+    if not AUTH_MANAGER.validate_token(CACHE_HANDLER.get_cached_token()):
+        return redirect("/auth")
+
+    # attempt to refresh token if expired
+    if AUTH_MANAGER.is_token_expired(CACHE_HANDLER.get_cached_token()):
+        try:
+            new_token_info = AUTH_MANAGER.refresh_access_token(
+                CACHE_HANDLER.get_cached_token()["refresh_token"]
+            )
+            CACHE_HANDLER.save_token_to_cache(new_token_info)
+        except Exception as e:
+            return jsonify({"error": f"Token refresh failed: {str(e)}"})
+
+    sp = spotipy.Spotify(auth_manager=AUTH_MANAGER)
+    tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
+
+    if tracks:
+        return jsonify({"tracks": tracks})
+    else:
+        return jsonify({"tracks": "Track information not found."})
 
 
 if __name__ == "__main__":
