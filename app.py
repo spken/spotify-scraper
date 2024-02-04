@@ -44,7 +44,7 @@ def about():
     Renders about page
     :return: Rendered about page
     """
-    return render_template("about.html")
+    return render_template("pages/about.html")
 
 
 @app.route("/privacy")
@@ -53,7 +53,7 @@ def privacy():
     Renders privacy policy page
     :return: Rendered privacy policy page
     """
-    return render_template("privacy.html")
+    return render_template("pages/privacy.html")
 
 
 @app.route("/auth")
