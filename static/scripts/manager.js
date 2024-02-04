@@ -4,6 +4,52 @@ const appendElement = (parentId, elementType, content) => {
   document.getElementById(parentId).appendChild(element);
 }
 
+async function appendCarouselItems(data, containerSelector) {
+  try {
+    const container = document.querySelector(containerSelector);
+    const carouselInner = container.querySelector(".carousel-inner");
+    const carouselIndicators = container.querySelector(".carousel-indicators");
+
+    carouselIndicators.innerHTML = "";
+    carouselInner.innerHTML = "";
+
+    data.forEach((item, index) => {
+      const carouselItem = document.createElement("div");
+      carouselItem.classList.add("carousel-item");
+
+      const image = document.createElement("img");
+      image.classList.add("d-block");
+      image.src = item.images[0].url;
+      image.alt = `${index + 1}. ${item.name}`;
+
+      const caption = document.createElement("div");
+      caption.classList.add("carousel-caption", "d-none", "d-md-block");
+
+      const heading = document.createElement("h5");
+      heading.textContent = `${index + 1}. ${item.name}`;
+
+      // FIXME: caption inside of image (place it below? how?)
+      caption.appendChild(heading);
+      carouselItem.appendChild(image);
+      carouselItem.appendChild(caption);
+      carouselInner.appendChild(carouselItem);
+
+      const indicator = document.createElement("button");
+      indicator.setAttribute("data-bs-target", containerSelector);
+      indicator.setAttribute("data-bs-slide-to", index.toString());
+      if (index === 0) {
+        indicator.classList.add("active");
+        indicator.setAttribute("aria-current", "true");
+      }
+      carouselIndicators.appendChild(indicator);
+    });
+
+    carouselInner.firstChild.classList.add("active");
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 async function authorize() {
   try {
     const response = await fetch("/auth");
@@ -40,10 +86,11 @@ async function getTopArtists() {
     const response = await fetch("/top-artists");
     const data = await response.json();
 
-    data.artists.items.forEach((artist, index) => {
-      const artistName = artist.name;
-      appendElement("artists", "p", `${index + 1}. ${artistName}`);
-    });
+    document.getElementById("topArtistsCarousel").style.display = "block";
+    appendCarouselItems(
+      data.artists.items,
+      "#topArtistsCarousel"
+    );    
   } catch (error) {
     console.error("Error:", error);
   }

@@ -76,3 +76,13 @@ button:hover {
   background-color: #555;
   transform: scale(1.05);
 }
+
+.carousel-item img {
+  max-height: 210px;
+  margin: 0 auto;
+}
+
+#topArtistsCarousel {
+  display: none;
+  margin-bottom: 20px;
+}

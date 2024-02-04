@@ -30,12 +30,30 @@ AUTH_MANAGER = SpotifyOAuth(
 
 
 @app.route("/")
-def start():
+def index():
     """
     Renders index on application launch
     :return: Rendered index
     """
     return render_template("index.html")
+
+
+@app.route("/about")
+def about():
+    """
+    Renders about page
+    :return: Rendered about page
+    """
+    return render_template("about.html")
+
+
+@app.route("/privacy")
+def privacy():
+    """
+    Renders privacy policy page
+    :return: Rendered privacy policy page
+    """
+    return render_template("privacy.html")
 
 
 @app.route("/auth")
@@ -94,7 +112,7 @@ def current_track():
     """
     # check if token is valid
     if not AUTH_MANAGER.validate_token(CACHE_HANDLER.get_cached_token()):
-        return redirect("/auth")
+        return render_template("index.html")
 
     # attempt to refresh token if expired
     if AUTH_MANAGER.is_token_expired(CACHE_HANDLER.get_cached_token()):
@@ -123,7 +141,7 @@ def top_artists():
     """
     # check if token is valid
     if not AUTH_MANAGER.validate_token(CACHE_HANDLER.get_cached_token()):
-        return redirect("/auth")
+        return render_template("index.html")
 
     # attempt to refresh token if expired
     if AUTH_MANAGER.is_token_expired(CACHE_HANDLER.get_cached_token()):
@@ -142,7 +160,7 @@ def top_artists():
         return jsonify({"artists": artists})
     else:
         return jsonify({"artists": "Artist information not found."})
-    
+
 
 @app.route("/top-tracks")
 def top_tracks():
@@ -152,7 +170,7 @@ def top_tracks():
     """
     # check if token is valid
     if not AUTH_MANAGER.validate_token(CACHE_HANDLER.get_cached_token()):
-        return redirect("/auth")
+        return render_template("index.html")
 
     # attempt to refresh token if expired
     if AUTH_MANAGER.is_token_expired(CACHE_HANDLER.get_cached_token()):

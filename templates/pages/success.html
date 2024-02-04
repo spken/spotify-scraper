@@ -20,8 +20,21 @@
         <div class="col-12 text-center">
             <button onclick="getTopArtists()">Get your top 10 artists</button>
             <div id="topArtists" class="row justify-content-center">
-                <div class="col-12 text-center">
+                <div class="col-8 text-center">
                     <p id="artists"></p>
+                    <!-- TODO: https://getbootstrap.com/docs/4.0/components/carousel/#with-captions -->
+                    <div id="topArtistsCarousel" class="carousel carousel-dark slide" data-ride="carousel">
+                        <ol class="carousel-indicators d-none"></ol>
+                        <div class="carousel-inner justify-content-center align-items-center"></div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#topArtistsCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#topArtistsCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
