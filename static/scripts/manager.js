@@ -90,7 +90,7 @@ async function getTopArtists() {
     appendCarouselItems(
       data.artists.items,
       "#topArtistsCarousel"
-    );    
+    );
   } catch (error) {
     console.error("Error:", error);
   }
