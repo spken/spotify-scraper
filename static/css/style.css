@@ -1,3 +1,4 @@
+/* ***** GENERAL ***** */
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -75,6 +76,12 @@ button {
 button:hover {
   background-color: #555;
   transform: scale(1.05);
+}
+
+/* ***** SUCCESS PAGE ***** */
+#currentTrack img {
+  max-height: 210px;
+  margin-bottom: 20px;
 }
 
 .carousel-item img {
