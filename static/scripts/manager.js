@@ -41,3 +41,17 @@ async function logout() {
     console.error("Error:", error);
   }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const timeRangeButtons = document.querySelectorAll('.btn-group button');
+
+  timeRangeButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+          timeRangeButtons.forEach(function(btn) {
+              btn.classList.remove('active');
+          });
+          this.classList.add('active');
+          document.getElementById('selected-time-range').value = this.getAttribute('data-range');
+      });
+  });
+});

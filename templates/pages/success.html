@@ -16,8 +16,16 @@
                     <option value="tracks">Top Tracks</option>
                 </select>
             </div>
+            <br>
             <div class="row">
+                <h3>Time range</h3>
                 <!-- TODO: add radio buttons for time range -->
+                <div class="btn-group" role="group" aria-label="Time range">
+                    <button type="button" class="btn button-outlined active" data-range="short_term">Last Month</button>
+                    <button type="button" class="btn button-outlined" data-range="medium_term">6 Months</button>
+                    <button type="button" class="btn button-outlined" data-range="long_term">All Time</button>
+                </div>
+                <input type="hidden" id="selected-time-range" value="medium_term">
             </div>
         </div>
     </div>
