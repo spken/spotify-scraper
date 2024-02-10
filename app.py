@@ -133,29 +133,14 @@ def get_spotify_instance():
     return spotipy.Spotify(auth_manager=AUTH_MANAGER)
 
 
-@app.route("/current-track")
-def current_track():
-    """
-    Gets a users current track (if one is playing)
-    :return: Track information
-    """
-    sp = get_spotify_instance()
-    track = sp.current_user_playing_track()
-
-    if track:
-        return jsonify({"current_track": track})
-    else:
-        return jsonify({"current_track": "No track is playing right now."})
-
-
-@app.route("/top-artists")
-def top_artists():
+@app.route("/top-artists/<time_range>")
+def top_artists(time_range):
     """
     Gets the users top 10 artists
     :return: Top 10 artists for user
     """
     sp = get_spotify_instance()
-    artists = sp.current_user_top_artists(limit=10, time_range="short_term")
+    artists = sp.current_user_top_artists(limit=10, time_range=time_range)
 
     if artists:
         return jsonify({"artists": artists})
@@ -163,14 +148,14 @@ def top_artists():
         return jsonify({"artists": "Artist information not found."})
 
 
-@app.route("/top-tracks")
-def top_tracks():
+@app.route("/top-tracks/<time_range>")
+def top_tracks(time_range):
     """
     Gets the users top 10 tracks
     :return: Top 10 tracks for user
     """
     sp = get_spotify_instance()
-    tracks = sp.current_user_top_tracks(limit=10, time_range="short_term")
+    tracks = sp.current_user_top_tracks(limit=10, time_range=time_range)
 
     if tracks:
         return jsonify({"tracks": tracks})

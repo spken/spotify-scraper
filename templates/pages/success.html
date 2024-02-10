@@ -1,62 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %} Success {% endblock %}
-
-{% block pageTitle %} spotify-scraper {% endblock %}
+{% block title %} spotify-scraper {% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center align-items-center">
-        <div class="col-12 text-center">
-            <button onclick="getCurrentTrack()">Get your current track</button>
-            <div id="currentTrack">
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                        <a id="link"></a>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                        <a id="link"></a>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <img id="image" src="" alt="" />
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-6">
+            <!-- TODO: display the queried items -->
+        </div>
+        <div class="col-1"></div>
+        <div class="col-5">
+            <div class="row">
+                <h3>Metrics</h3>
+                <select class="form-select" aria-label="Metric selection">
+                    <option selected value="artists">Top Artists</option>
+                    <option value="tracks">Top Tracks</option>
+                </select>
+            </div>
+            <div class="row">
+                <!-- TODO: add radio buttons for time range -->
             </div>
         </div>
     </div>
+    <!--
     <div class="row justify-content-center align-items-center">
         <div class="col-12 text-center">
             <button onclick="getTopArtists()">Get your top 10 artists</button>
-            <div id="topArtists" class="row justify-content-center">
-                <div class="col-8 text-center">
-                    <p id="artists"></p>
-                    <div id="topArtistsCarousel" class="carousel carousel-dark slide" data-ride="carousel">
-                        <ol class="carousel-indicators d-none"></ol>
-                        <div class="carousel-inner justify-content-center align-items-center"></div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#topArtistsCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#topArtistsCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <div class="row justify-content-center align-items-center">
         <div class="col-12 text-center">
             <button onclick="getTopTracks()">Get your top 10 tracks</button>
-            <div id="topTracks" class="row justify-content-center">
-                <div class="col-12 text-center">
-                    <p id="tracks"></p>
-                </div>
-            </div>
         </div>
     </div>
+    -->
 {% endblock %}
