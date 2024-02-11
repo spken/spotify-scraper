@@ -30,7 +30,7 @@ To get started with the Event-Tool, follow these steps:
 
 ```
 $ git clone https://github.com/spken/spotify-scraper.git
-$ cd eventtool
+$ cd spotify-scraper
 ```
 
 2. Activate environment:
