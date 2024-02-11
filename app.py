@@ -110,6 +110,7 @@ def check_token():
         except ValueError as e:
             print(e)
             return redirect("/")
+    return None
 
 
 def get_spotify_instance():
