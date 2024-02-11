@@ -18,7 +18,7 @@ client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
 redirect_uri = os.getenv("SPOTIPY_REDIRECT_URI")
 
 CACHE_HANDLER = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-SCOPE = "user-library-read user-read-currently-playing"
+SCOPE = "user-library-read user-read-currently-playing user-top-read"
 AUTH_MANAGER = SpotifyOAuth(
     client_id=client_id,
     client_secret=client_secret,
@@ -30,12 +30,30 @@ AUTH_MANAGER = SpotifyOAuth(
 
 
 @app.route("/")
-def start():
+def index():
     """
     Renders index on application launch
     :return: Rendered index
     """
     return render_template("index.html")
+
+
+@app.route("/about")
+def about():
+    """
+    Renders about page
+    :return: Rendered about page
+    """
+    return render_template("pages/about.html")
+
+
+@app.route("/privacy")
+def privacy():
+    """
+    Renders privacy policy page
+    :return: Rendered privacy policy page
+    """
+    return render_template("pages/privacy.html")
 
 
 @app.route("/auth")
@@ -86,33 +104,63 @@ def logout():
     return jsonify({"logout": "/"})
 
 
-@app.route("/current")
-def current_track():
+def check_token():
     """
-    Gets a users current track (if one is playing)
-    :return: Track information
+    Check / refresh token if expired
+    :return: Redirect to index / error json on exception
     """
+    token_info = CACHE_HANDLER.get_cached_token()
+
     # check if token is valid
-    if not AUTH_MANAGER.validate_token(CACHE_HANDLER.get_cached_token()):
-        return redirect("/auth")
-
-    # attempt to refresh token if expired
-    if AUTH_MANAGER.is_token_expired(CACHE_HANDLER.get_cached_token()):
+    if not token_info or not AUTH_MANAGER.validate_token(token_info):
         try:
-            new_token_info = AUTH_MANAGER.refresh_access_token(
-                CACHE_HANDLER.get_cached_token()["refresh_token"]
-            )
-            CACHE_HANDLER.save_token_to_cache(new_token_info)
+            if token_info:
+                new_token_info = AUTH_MANAGER.refresh_access_token(token_info["refresh_token"])
+                CACHE_HANDLER.save_token_to_cache(new_token_info)
+            else:
+                raise Exception("Cached token not found.")
         except Exception as e:
-            return jsonify({"error": f"Token refresh failed: {str(e)}"})
+            print(e)
+            return redirect("/")
 
-    sp = spotipy.Spotify(auth_manager=AUTH_MANAGER)
-    track = sp.current_user_playing_track()
 
-    if track:
-        return jsonify({"current_track": track})
+def get_spotify_instance():
+    """
+    Get Spotify instance
+    :return: Spotify instance
+    """
+    check_token()
+    return spotipy.Spotify(auth_manager=AUTH_MANAGER)
+
+
+@app.route("/top-artists/<time_range>")
+def top_artists(time_range):
+    """
+    Gets the users top 10 artists
+    :return: Top 10 artists for user
+    """
+    sp = get_spotify_instance()
+    artists = sp.current_user_top_artists(limit=10, time_range=time_range)
+
+    if artists:
+        return jsonify({"artists": artists})
     else:
-        return jsonify({"message": "No track is playing right now."})
+        return jsonify({"artists": "Artist information not found."})
+
+
+@app.route("/top-tracks/<time_range>")
+def top_tracks(time_range):
+    """
+    Gets the users top 10 tracks
+    :return: Top 10 tracks for user
+    """
+    sp = get_spotify_instance()
+    tracks = sp.current_user_top_tracks(limit=10, time_range=time_range)
+
+    if tracks:
+        return jsonify({"tracks": tracks})
+    else:
+        return jsonify({"tracks": "Track information not found."})
 
 
 if __name__ == "__main__":

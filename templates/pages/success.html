@@ -1,15 +1,28 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
-{% block title %} Success {% endblock %} 
-
-{% block pageTitle %} spotify-scraper {% endblock %} 
+{% block title %} spotify-scraper {% endblock %}
 
 {% block content %}
-    <button onclick="getCurrentTrack()">Get your current track</button>
-    <div id="currentTrack">
-        <a id="link"></a><br>
-        <img id="image" src="" alt="">
+    <div class="row">
+        <div id="content" class="col-6"></div>
+        <div id="parameters" class="col-6">
+            <div class="row">
+                <h3>Metrics</h3>
+                <select id="metric-select" class="form-select" aria-label="Metric selection">
+                    <option selected value="artists">Top Artists</option>
+                    <option value="tracks">Top Tracks</option>
+                </select>
+            </div>
+            <br>
+            <div class="row">
+                <h3>Time range</h3>
+                <div class="btn-group" role="group" aria-label="Time range">
+                    <button type="button" class="btn button-outlined active" data-range="short_term">Last Month</button>
+                    <button type="button" class="btn button-outlined" data-range="medium_term">6 Months</button>
+                    <button type="button" class="btn button-outlined" data-range="long_term">All Time</button>
+                </div>
+                <input type="hidden" id="selected-time-range" value="medium_term">
+            </div>
+        </div>
     </div>
-    <br>
-    <button onclick="logout()">Logout</button>
 {% endblock %}
