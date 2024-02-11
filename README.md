@@ -36,7 +36,7 @@ $ cd eventtool
 2. Activate environment:
 
 ```
-$ source /env/Scripts/activate
+$ source env/Scripts/activate
 ```
 
 2. Install requirements:
