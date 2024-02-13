@@ -36,6 +36,7 @@ $ cd spotify-scraper
 2. Activate environment:
 
 ```
+$ python -m venv env
 $ source env/Scripts/activate
 ```
 
