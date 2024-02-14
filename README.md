@@ -20,6 +20,8 @@ Before setting up and running the project, ensure you have the following install
 ```
 - Python - for running the backend server.
 - Git - for cloning the repository.
+- Spotify Developer Dashboard access - for the environment variables
+  (allows access to Spotify)
 ```
 
 ## Setup
